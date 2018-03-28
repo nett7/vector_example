@@ -5,7 +5,7 @@
 
 vector_t::vector_t()
 {
-}
+}//erf,erf,e
 
 vector_t::vector_t(vector_t const & other)
 {
