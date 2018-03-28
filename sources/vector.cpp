@@ -1,5 +1,4 @@
 #include "vector.hpp"
-
 #include <algorithm>
 #include <cassert>
 #include <memory>
@@ -66,14 +65,13 @@ void vector_t::push_back(int value) {
 }
 
 void vector_t::pop_back() {
+    if (size_ == 0) {
+        throw std::exception();
+    }
     size_--;
     if (size_ < (capacity_ / 2)) {
         decrease_capacity();
     }
-    /*int *temp = elements_;
-    elements_ = new int[capacity_];
-    std::copy(temp, &temp[size_ - 1], elements_);
-    delete[]temp;*/
 }
 
 int &vector_t::operator[](std::size_t index) {
