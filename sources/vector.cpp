@@ -1,4 +1,8 @@
+/* Когда ты описываешь реализацию методов класса, объявленного в *.h/*.hpp файле - инклюдишь его!!!
+ * #include "vector.hpp"
+ */
 #include "vector.hpp"
+
 #include <algorithm>
 #include <cassert>
 #include <memory>
@@ -12,7 +16,7 @@ vector_t::vector_t() {
 
 vector_t::vector_t(vector_t const &other) {
     if (elements_ != nullptr)
-        delete [] elements_;
+        delete[] elements_;
     elements_ = new int[other.capacity_];
     capacity_ = other.capacity_;
     size_ = other.size_;
@@ -32,6 +36,9 @@ vector_t &vector_t::operator=(vector_t const &other) {
 }
 
 bool vector_t::operator==(vector_t const &other) const {
+    if (size_ != other.size_) {
+        return false;
+    }
     for (int i = 0; i < other.size_; i++) {
         if (elements_[i] != other[i]) {
             return false;
@@ -42,7 +49,7 @@ bool vector_t::operator==(vector_t const &other) const {
 }
 
 vector_t::~vector_t() {
-    delete []elements_;
+    delete[]elements_;
 }
 
 std::size_t vector_t::size() const {
@@ -63,17 +70,19 @@ void vector_t::push_back(int value) {
 
 void vector_t::pop_back() {
     size_--;
-    if(size_< (capacity_/2)) {
+    if (size_ < (capacity_ / 2)) {
         decrease_capacity();
     }
-        int *temp = elements_;
-        elements_ = new int[capacity_];
-        std::copy(temp, &temp[size_-1], elements_);
-        delete[]temp;
-
+    /*int *temp = elements_;
+    elements_ = new int[capacity_];
+    std::copy(temp, &temp[size_ - 1], elements_);
+    delete[]temp;*/
 }
 
 int &vector_t::operator[](std::size_t index) {
+    if (index < 0 || index >= size_) {
+        throw std::exception();
+    }
     return elements_[index];
 }
 
@@ -91,8 +100,6 @@ void vector_t::extend_capacity_() {
         elements_ = new int[capacity_];
         std::copy(temp, &temp[size_], elements_);
         delete[]temp;
-
-
     }
 }
 
@@ -108,15 +115,5 @@ void vector_t::decrease_capacity() {
 }
 
 bool operator!=(vector_t const &lhs, vector_t const &rhs) {
-    if(lhs.size_!=rhs.size_){
-        return true;
-    }
-    else {
-    for (int i = 0; i < lhs.size_; i++) {
-        if (lhs[i] != lhs[i]) {
-            return true;
-        }}
-    }
-
-    return false;
+    return !(lhs == rhs);
 }
