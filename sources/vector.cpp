@@ -1,6 +1,3 @@
-/* Когда ты описываешь реализацию методов класса, объявленного в *.h/*.hpp файле - инклюдишь его!!!
- * #include "vector.hpp"
- */
 #include "vector.hpp"
 
 #include <algorithm>
@@ -39,7 +36,7 @@ bool vector_t::operator==(vector_t const &other) const {
     if (size_ != other.size_) {
         return false;
     }
-    for (int i = 0; i < other.size_; i++) {
+    for (unsigned int i = 0; i < other.size_; i++) {
         if (elements_[i] != other[i]) {
             return false;
         }
@@ -111,7 +108,6 @@ void vector_t::decrease_capacity() {
         std::copy(temp, &temp[size_], elements_);
         delete[]temp;
     }
-
 }
 
 bool operator!=(vector_t const &lhs, vector_t const &rhs) {
