@@ -11,6 +11,12 @@ vector_t::vector_t() {
 }
 
 vector_t::vector_t(vector_t const &other) {
+    if (elements_ != nullptr)
+        delete [] elements_;
+    elements_ = new int[other.capacity_];
+    capacity_ = other.capacity_;
+    size_ = other.size_;
+    std::copy(other.elements_, &other.elements_[size_], elements_);
 }
 
 vector_t &vector_t::operator=(vector_t const &other) {
@@ -64,7 +70,7 @@ void vector_t::pop_back() {
         elements_ = new int[capacity_];
         std::copy(temp, &temp[size_-1], elements_);
         delete[]temp;
-    
+
 }
 
 int &vector_t::operator[](std::size_t index) {
